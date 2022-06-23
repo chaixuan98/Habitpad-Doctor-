@@ -1,9 +1,11 @@
 package com.example.habitpaddoctor;
 
 import static com.example.habitpaddoctor.DateHandler.dateFormat2;
+import static com.example.habitpaddoctor.DateHandler.getCurrentFormedDate;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +13,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +48,11 @@ public class ViewUserProfile extends AppCompatActivity {
     private String userID;
     private int level = 0;
     private CircleImageView userImg;
+    private ImageView monthOption;
+    private TextView monthView;
     private TextView userName, userEmail, userPhone, userGender, userAge, userWeight, userHeight,userFamilySuffered, userLifestyle,userBMI, userSmoked, userAlcohol, userMedical, userTDEE, userFoodCal, userWorkoutCal, userWaterNeed;
     private String userPhoto,username,email,phone,gender,age ,weight ,height ,familySuffered,bmi,lifestyle,smoked,alcohol,medical;
-    private String strUserTDEE, strUserWaterNeed, strUserFoodGoal, strUserWorkoutGoal;
+    private String strUserTDEE, strUserWaterNeed, strUserFoodGoal, strUserWorkoutGoal, monthInt;
 
     LineChart obeseLineChart;
     LineChart foodLineChart;
@@ -97,6 +106,17 @@ public class ViewUserProfile extends AppCompatActivity {
         userWorkoutCal = findViewById(R.id.user_workout_calories);
         userWaterNeed = findViewById(R.id.user_water_need);
 
+        monthView = findViewById(R.id.month_view);
+        monthOption = findViewById(R.id.month_option);
+
+        monthView.setText(DateHandler.monthFormat(DateHandler.getCurrentFormedDate()));
+        monthOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenMonthOptionDialog();
+            }
+        });
+
         getUserDetails();
 
         obeseLineChart = (LineChart) findViewById(R.id.obese_level_chart);
@@ -120,7 +140,7 @@ public class ViewUserProfile extends AppCompatActivity {
         obeseLineChart.getAxisLeft().setDrawLimitLinesBehindData(false);
         obeseLineChart.getAxisLeft().setDrawAxisLine(false);
         obeseLineChart.getAxisLeft().setDrawGridLines(false);
-        getOMonth(userID);
+        getOMonth(userID, DateHandler.monthFormat2(getCurrentFormedDate()));
 
         foodLineChart = (LineChart) findViewById(R.id.calories_intake_chart);
 
@@ -143,7 +163,7 @@ public class ViewUserProfile extends AppCompatActivity {
         foodLineChart.getAxisLeft().setDrawLimitLinesBehindData(false);
         foodLineChart.getAxisLeft().setDrawAxisLine(false);
         foodLineChart.getAxisLeft().setDrawGridLines(false);
-        getFMonth(userID);
+        getFMonth(userID, DateHandler.monthFormat2(getCurrentFormedDate()));
 
         workoutLineChart = (LineChart) findViewById(R.id.calories_burnt_chart);
 
@@ -166,7 +186,7 @@ public class ViewUserProfile extends AppCompatActivity {
         workoutLineChart.getAxisLeft().setDrawLimitLinesBehindData(false);
         workoutLineChart.getAxisLeft().setDrawAxisLine(false);
         workoutLineChart.getAxisLeft().setDrawGridLines(false);
-        getWMonth(userID);
+        getWMonth(userID, DateHandler.monthFormat2(getCurrentFormedDate()));
 
         waterLineChart = (LineChart) findViewById(R.id.water_intake_chart);
 
@@ -189,7 +209,7 @@ public class ViewUserProfile extends AppCompatActivity {
         waterLineChart.getAxisLeft().setDrawLimitLinesBehindData(false);
         waterLineChart.getAxisLeft().setDrawAxisLine(false);
         waterLineChart.getAxisLeft().setDrawGridLines(false);
-        getWaMonth(userID);
+        getWaMonth(userID, DateHandler.monthFormat2(getCurrentFormedDate()));
 
         stepLineChart = (LineChart) findViewById(R.id.step_chart);
 
@@ -213,7 +233,79 @@ public class ViewUserProfile extends AppCompatActivity {
         stepLineChart.getAxisLeft().setDrawAxisLine(false);
         stepLineChart.getAxisLeft().setDrawGridLines(false);
 
-        getSMonth(userID);
+        getSMonth(userID, DateHandler.monthFormat2(getCurrentFormedDate()));
+    }
+
+    private void OpenMonthOptionDialog()
+    {
+        final Dialog monthdialog = new Dialog(ViewUserProfile.this);
+        monthdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        monthdialog.setContentView(R.layout.month_select_dialog);
+        monthdialog.setTitle("Select Month");
+        monthdialog.show();
+        Window weightWindow = monthdialog.getWindow();
+        weightWindow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        final NumberPicker monthSelectNumberPicker= (NumberPicker) monthdialog.findViewById(R.id.month_select_numberPicker);
+        TextView monthSelectTV = monthdialog.findViewById(R.id.month_select_tv);
+        final String[] monthSelectValue;
+
+
+        monthSelectValue= getResources().getStringArray(R.array.month_select);
+        monthSelectNumberPicker.setMaxValue(11);
+        monthSelectNumberPicker.setMinValue(0);
+        monthSelectNumberPicker.setWrapSelectorWheel(false);
+        monthSelectNumberPicker.setDisplayedValues(monthSelectValue);
+        monthSelectTV.setText(String.format("Month: %s",monthSelectNumberPicker.getValue()));
+
+
+
+        monthSelectNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                monthSelectTV.setText(String.format("Month: %s",monthSelectValue[i1]));
+                monthView.setText(monthSelectValue[i1]);
+
+            }
+        });
+
+
+        /* cancel button click action */
+        Button cancelbtn = (Button)monthdialog.findViewById(R.id.months_select_cancel_button);
+        cancelbtn.setEnabled(true);
+        cancelbtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                monthdialog.cancel();
+            }
+        });
+
+
+        /* ok button click action */
+        Button confirmBtn = (Button)monthdialog.findViewById(R.id.months_select_confirm_button);
+        confirmBtn.setEnabled(true);
+        confirmBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                monthdialog.cancel();
+
+                getOMonth(userID,DateHandler.monthFormat3(monthView.getText().toString()));
+                getFMonth(userID, DateHandler.monthFormat3(monthView.getText().toString()));
+                getWMonth(userID, DateHandler.monthFormat3(monthView.getText().toString()));
+                getWaMonth(userID, DateHandler.monthFormat3(monthView.getText().toString()));
+                getSMonth(userID, DateHandler.monthFormat3(monthView.getText().toString()));
+
+                Toast.makeText(ViewUserProfile.this, monthView.getText(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
     }
 
     private void getUserDetails() {
@@ -334,7 +426,7 @@ public class ViewUserProfile extends AppCompatActivity {
 
     }
 
-    private void getOMonth(final String userID){
+    private void getOMonth(final String userID, final String month){
 
         xOMonth = new ArrayList<String>();
         yOMonth = new ArrayList<Entry>();
@@ -421,14 +513,14 @@ public class ViewUserProfile extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("userID",userID);
-
+                params.put("obeseMonth",month);
                 return params;
             }
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
-    private void getFMonth(final String userID){
+    private void getFMonth(final String userID, final String month){
 
         xFMonth = new ArrayList<String>();
         yFMonth = new ArrayList<Entry>();
@@ -491,14 +583,14 @@ public class ViewUserProfile extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("userID",userID);
-
+                params.put("foodMonth",month);
                 return params;
             }
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
-    private void getWMonth(final String userID){
+    private void getWMonth(final String userID, final String month){
 
         xWMonth = new ArrayList<String>();
         yWMonth = new ArrayList<Entry>();
@@ -561,14 +653,14 @@ public class ViewUserProfile extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("userID",userID);
-
+                params.put("workoutMonth",month);
                 return params;
             }
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
-    private void getWaMonth(final String userID){
+    private void getWaMonth(final String userID, final String month){
 
         xWaMonth = new ArrayList<String>();
         yWaMonth = new ArrayList<Entry>();
@@ -632,14 +724,14 @@ public class ViewUserProfile extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("userID",userID);
-
+                params.put("waterMonth",month);
                 return params;
             }
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
-    private void getSMonth(final String userID){
+    private void getSMonth(final String userID, final String month){
 
         xSMonth = new ArrayList<String>();
         ySMonth = new ArrayList<Entry>();
@@ -703,7 +795,7 @@ public class ViewUserProfile extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("userID",userID);
-
+                params.put("stepMonth",month);
                 return params;
             }
         };

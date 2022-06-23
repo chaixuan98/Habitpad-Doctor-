@@ -34,7 +34,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/doctor_advice_layout"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:hintTextColor="@color/black"
@@ -44,11 +44,12 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="200dp"
                 android:hint="Write Advice....."
                 android:drawablePadding="10dp"
                 android:textAlignment="viewStart"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:inputType="textMultiLine"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

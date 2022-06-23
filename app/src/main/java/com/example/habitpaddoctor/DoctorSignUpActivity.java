@@ -2,10 +2,18 @@ package com.example.habitpaddoctor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +71,54 @@ public class DoctorSignUpActivity extends AppCompatActivity {
                 if(!validateFullname() | !validateEmail() | !validatePhone() | !validatePassword() | !validateEducation() | !validateExp() | !validateHospital()){
                     return;
                 }
+                OpenTermDialog();
 
+
+            }
+        });
+    }
+
+    private void OpenTermDialog()
+    {
+        final Dialog termdialog = new Dialog(DoctorSignUpActivity.this);
+        termdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        termdialog.setContentView(R.layout.custom_term_dialog_layout);
+        termdialog.setTitle("Term and Condition window");
+        termdialog.show();
+        Window termWindow = termdialog.getWindow();
+        termWindow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        final WebView webView;
+        final String fileName = "term_condition.html";
+
+        webView = (WebView) termdialog.findViewById(R.id.term_condition);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("file:///android_asset/"+ fileName);
+
+
+
+        /* cancel button click action */
+        MaterialButton declineBtn = (MaterialButton)termdialog.findViewById(R.id.decline_btn);
+        declineBtn.setEnabled(true);
+        declineBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                termdialog.cancel();
+            }
+        });
+
+
+        /* ok button click action */
+        MaterialButton agreeBtn = (MaterialButton)termdialog.findViewById(R.id.agree_btn);
+        agreeBtn.setEnabled(true);
+        agreeBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
                 createDoctor( dName.getEditText().getText().toString().trim(),
                         dPassword.getEditText().getText().toString().trim(),
                         dEmail.getEditText().getText().toString().trim(),
@@ -72,14 +127,14 @@ public class DoctorSignUpActivity extends AppCompatActivity {
                         dExp.getEditText().getText().toString().trim(),
                         dHospital.getEditText().getText().toString().trim());
 
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),DoctorLoginActivity.class);
                 intent.putExtra("dName", dName.getEditText().getText().toString().trim());
                 startActivity(intent);
-
             }
         });
-    }
 
+
+    }
     private void createDoctor(final String doctorName,
                               final String doctorPassword,
                               final String doctorEmail,
@@ -103,7 +158,7 @@ public class DoctorSignUpActivity extends AppCompatActivity {
                     String message = jsonObject.getString("message");
 
                     if (success.equals("1")) {
-
+                        //termDialog();
                         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
                         dConfirm.setText("Confirm");
 

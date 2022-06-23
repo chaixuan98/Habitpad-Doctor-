@@ -14,7 +14,7 @@ public class Urls {
     public static final String GET_DOCTOR_APPOINTMENT_URL = ROOT_URL+"get_doctor_appointment.php";
 
     public static final String READ_USER_DETAILS_URL = ROOT_URL+"read_detail.php";
-    public static final String GET_OBESE_LEVEL_MONTH_GRAPH_URL = ROOT_URL+"get_obese_level_bymonth.php";
+    public static final String GET_OBESE_LEVEL_MONTH_GRAPH_URL = ROOT_URL+"get_user_obese_level.php";
     public static final String GET_USER_FOOD_GRAPH_URL = ROOT_URL+"get_user_food_chart.php";
     public static final String GET_USER_WORKOUT_GRAPH_URL = ROOT_URL+"get_user_workout_chart.php";
     public static final String GET_USER_WATER_GRAPH_URL = ROOT_URL+"get_user_water_chart.php";

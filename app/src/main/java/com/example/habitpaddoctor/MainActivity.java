@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         DisplayDoctorProfilePic(doctorID);
 
-        checkAppFirstTimeRun();
 
         my_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,20 +91,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void termDialog(){
-        TermConditionDialog termConditionDialog = new TermConditionDialog(this);
-        termConditionDialog.show();
-    }
+//    private void termDialog(){
+//        TermConditionDialog termConditionDialog = new TermConditionDialog(this);
+//        termConditionDialog.show();
+//    }
 
-    private void checkAppFirstTimeRun() {
-
-        if (doctorSessionManager.getFirstTimeRunPrefs()) {
-            termDialog();
-            doctorSessionManager.setFirstTimeRunPrefs(false);
-
-        }
-
-    }
 
     public void ClickMenu(View view) {
         openDrawer(drawerLayout);
@@ -173,12 +163,6 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-//    public static void redirectActivity(Activity activity, Class aclass) {
-//        Intent intent = new Intent(activity, aclass);
-//        intent.putExtra("UserName", doctorName);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        activity.startActivity(intent);
-//    }
 
     @Override
     protected void onPause() {
