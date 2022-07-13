@@ -69,8 +69,9 @@ public class DoctorSessionManager {
     public void checkLogin(){
         if (!this.isUserLogin()){
             Intent i = new Intent(context, DoctorLoginActivity.class);
+            //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
-            //((HomeActivity) context).finish();
+            ((MainActivity) context).finish();
         }
 
     }
@@ -81,19 +82,19 @@ public class DoctorSessionManager {
         editor.commit();
         Intent i = new Intent(context, DoctorLoginActivity.class);
         context.startActivity(i);
-        //((DoctorMainActivity) context).finish();
+        ((MainActivity) context).finish();
 
     }
 
-    public boolean getFirstTimeRunPrefs(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getBoolean("first_time_run", true) ;
-    }
-
-    public void setFirstTimeRunPrefs(boolean b) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("first_time_run", b);
-        editor.commit();
-    }
+//    public boolean getFirstTimeRunPrefs(){
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        return sharedPreferences.getBoolean("first_time_run", true) ;
+//    }
+//
+//    public void setFirstTimeRunPrefs(boolean b) {
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean("first_time_run", b);
+//        editor.commit();
+//    }
 }

@@ -184,7 +184,7 @@ public class DoctorSchedule extends AppCompatActivity {
 //                    ref.setValue(null);
                     for(String slot: results) {
 //                        ref.child(slot).setValue("Available");
-                        Toast.makeText(getApplicationContext(), slot, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), slot, Toast.LENGTH_SHORT).show();
                         AddDoctorSlot(doctorID,appDate.getText().toString().trim(), slot, "Available");
 //                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
 //                        MainActivity.redirectActivity(DoctorSchedule.this, MainActivity.class);

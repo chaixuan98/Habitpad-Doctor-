@@ -150,7 +150,7 @@
 
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_marginStart="7dp"
                                     android:text="H/P: "
                                     android:textColor="@color/black"
@@ -170,7 +170,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="10dp"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -206,6 +205,17 @@
                                     android:text="height"
                                     android:textSize="16sp" />
 
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -233,7 +243,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="7dp"
                                     android:layout_marginLeft="7dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:text="Others"
                                     android:textColor="@color/black"
                                     android:textSize="18sp" />
@@ -561,7 +571,7 @@
                         android:layout_marginTop="5dp"
                         android:paddingLeft="10dp"
                         android:lineSpacingMultiplier="1"
-                        android:text="0 - Insufficient_Weight   1 - Normal_Weight\n\n2 - Overweight_Level_I   3 - Overweight_Level_II\n\n4 - Obesity_Type_I  5 - Obesity_Type_II  6 - Obesity_Type_III"
+                        android:text="0 - Insufficient_Weight   1 - Normal_Weight\n\n2 - Overweight_Level_I   3 - Overweight_Level_II\n\n4 - Obesity_Type_I  5 - Obesity_Type_II\n\n6 - Obesity_Type_III"
                         android:textColor="@color/black" />
 
 
